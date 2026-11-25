@@ -222,6 +222,26 @@
     render();
   });
 
+  /* Deep-linking: ?q=&min=&status=&sort=&bounty=<make.fun URL> — lets a
+     screenshot, a share link, or a test open a pre-set view. */
+  (function applyQueryParams() {
+    var params;
+    try { params = new URLSearchParams(window.location.search); } catch (e) { return; }
+    var q = params.get('q');
+    if (q != null) searchEl.value = q;
+    var min = params.get('min');
+    if (min != null && !isNaN(parseFloat(min))) minPrizeEl.value = String(parseFloat(min));
+    var status = params.get('status');
+    if (status && ['all', 'live', 'judging', 'done'].indexOf(status) !== -1) statusEl.value = status;
+    var sort = params.get('sort');
+    if (sort && ['prize-desc', 'prize-asc', 'deadline-asc', 'deadline-desc'].indexOf(sort) !== -1) sortEl.value = sort;
+    var bountyUrl = params.get('bounty');
+    if (bountyUrl) {
+      var target = DATA.bounties.find(function (x) { return x.url === bountyUrl; });
+      if (target) setTimeout(function () { openModal(target); }, 0);
+    }
+  })();
+
   render();
   setInterval(tick, 1000);
 
