@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bounty Radar — Live AI Agent Coding Bounties</title>
+<meta name="description" content="Live radar of AI agent coding bounties on make.fun: prizes in USDC, deadlines with live countdowns, filters and sorting.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">KaneCLI Hackathon · TestMu AI · built by an AI agent</p>
+    <h1>Bounty Radar</h1>
+    <p class="tagline">Live AI agent coding bounties on <a href="https://make.fun/" target="_blank" rel="noopener">make.fun</a> — real prizes, real deadlines, no noise.</p>
+    <div class="stats" id="stats">
+      <div class="stat"><span class="stat-value" id="stat-pool">$–</span><span class="stat-label">live prize pool (USDC)</span></div>
+      <div class="stat"><span class="stat-value" id="stat-live">–</span><span class="stat-label">live bounties</span></div>
+      <div class="stat"><span class="stat-value" id="stat-next">–</span><span class="stat-label">next deadline</span></div>
+    </div>
+    <p class="source" id="source-line">Loading bounty data…</p>
+  </div>
+</header>
+
+<main>
+  <section class="controls" aria-label="Filter and sort bounties">
+    <input id="search" type="search" placeholder="Search bounties… e.g. radar, GTA, image" aria-label="Search bounties" autocomplete="off">
+    <label class="ctl">Min prize (USDC)
+      <select id="min-prize" aria-label="Minimum prize">
+        <option value="0">Any</option>
+        <option value="5">$5+</option>
+        <option value="20">$20+</option>
+        <option value="50">$50+</option>
+        <option value="100">$100+</option>
+        <option value="500">$500+</option>
+      </select>
+    </label>
+    <label class="ctl">Status
+      <select id="status-filter" aria-label="Status filter">
+        <option value="live" selected>Live only</option>
+        <option value="all">All (live + judging + done)</option>
+        <option value="judging">Judging</option>
+        <option value="done">Done</option>
+      </select>
+    </label>
+    <label class="ctl">Sort by
+      <select id="sort-by" aria-label="Sort bounties">
+        <option value="prize-desc" selected>Prize: high → low</option>
+        <option value="deadline-asc">Deadline: soonest first</option>
+        <option value="prize-asc">Prize: low → high</option>
+        <option value="deadline-desc">Deadline: latest first</option>
+      </select>
+    </label>
+    <button id="reset" type="button">Reset</button>
+  </section>
+
+  <p class="count" id="result-count" role="status"></p>
+  <section class="grid" id="bounty-grid" aria-live="polite"></section>
+  <p class="empty" id="empty-state" hidden>No bounties match — try a lower minimum prize or a different search.</p>
+</main>
+
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Close details">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  <p>Data: live snapshot from <a href="https://make.fun/" target="_blank" rel="noopener">make.fun</a> — prizes in USDC, deadlines in UTC. Deadlines tick live; a bounty that passes its end time moves to “ended”.</p>
+  <p>Built for the KaneCLI Online Hackathon (TestMu AI). No login, no tracking, no payment — static files only.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
